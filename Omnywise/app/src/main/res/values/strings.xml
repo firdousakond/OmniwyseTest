@@ -1,0 +1,11 @@
+<resources>
+    <string name="omniwyse_test">Omniwyse Test</string>
+    <string name="error_msg_user">Error while fetching users</string>
+    <string name="users">Users</string>
+    <string name="followers">Followers: &#160;</string>
+    <string name="repos">Repos: &#160;</string>
+    <string name="organization">Organizations: &#160;</string>
+    <string name="subscription">Subscriptions: &#160;</string>
+    <string name="hold_loading">Hold on, loading content</string>
+
+</resources>
