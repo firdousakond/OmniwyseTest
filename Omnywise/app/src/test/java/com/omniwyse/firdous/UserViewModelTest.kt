@@ -1,14 +1,20 @@
 package com.omniwyse.firdous
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import com.nhaarman.mockitokotlin2.eq
+import com.omniwyse.firdous.model.UserModel
 import com.omniwyse.firdous.service.UserService
+import com.omniwyse.firdous.util.LiveDataResult
 import com.omniwyse.firdous.view.users.UserViewModel
-import org.junit.Before
-import org.junit.ClassRule
-import org.junit.Rule
+import io.reactivex.Single
+import junit.framework.Assert.assertEquals
+import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 
@@ -20,7 +26,7 @@ class UserViewModelTest {
     lateinit var userViewModel: UserViewModel
 
     @Mock
-    private lateinit var userService: UserService
+    lateinit var userService: UserService
 
     companion object {
         @ClassRule
@@ -33,6 +39,39 @@ class UserViewModelTest {
         MockitoAnnotations.initMocks(this)
         this.userViewModel =
             UserViewModel(userService)
+    }
+
+    @Test
+    fun `fetch user positive response`() {
+        Mockito.`when`(userService.getUsers(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt())).thenAnswer {
+            return@thenAnswer Single.just(ArgumentMatchers.anyList<UserModel>())
+        }
+        val observer = Mockito.mock(Observer::class.java)
+                as Observer<LiveDataResult<List<UserModel>>>
+        userViewModel.userLiveData.observeForever(observer)
+        userViewModel.fetchUsers(eq(ArgumentMatchers.anyInt()))
+        Assert.assertNotNull(userViewModel.userLiveData.value)
+        assertEquals(LiveDataResult.Status.SUCCESS, userViewModel.userLiveData.value?.status)
+
+    }
+
+    @Test
+    fun `fetch user error response`() {
+        Mockito.`when`(userService.getUsers(ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt()))
+            .thenAnswer {
+                return@thenAnswer Single.error<Throwable>(Throwable("Network Error"))
+            }
+
+        val observer = Mockito.mock(Observer::class.java)
+                as Observer<LiveDataResult<List<UserModel>>>
+
+        userViewModel.userLiveData.observeForever(observer)
+
+        userViewModel.fetchUsers(eq(ArgumentMatchers.anyInt()))
+
+        Assert.assertNotNull(userViewModel.userLiveData.value)
+        assertEquals(LiveDataResult.Status.ERROR, userViewModel.userLiveData.value?.status)
+        assert(userViewModel.userLiveData.value?.err is Throwable)
     }
 
 }
