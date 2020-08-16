@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.omniwyse.firdous.R
 import com.omniwyse.firdous.model.UserModel
 import com.omniwyse.firdous.util.*
+import com.omniwyse.firdous.view.NavigationManager
 import com.omniwyse.firdous.view.base.BaseActivity
+import com.omniwyse.firdous.view.details.UserDetailsActivity
 import kotlinx.android.synthetic.main.activity_toolbar.*
 import kotlinx.android.synthetic.main.activity_user.*
 import javax.inject.Inject
 
-class UserActivity : BaseActivity() {
+class UserActivity : BaseActivity(), UserAdapter.UserClickListener {
 
     @Inject
     lateinit var userViewModel: UserViewModel
@@ -83,7 +85,7 @@ class UserActivity : BaseActivity() {
     private fun initComponents() {
         tvHeader.text = getString(R.string.users)
         ivSwitchView.show()
-        userAdapter = UserAdapter(this)
+        userAdapter = UserAdapter(this,this)
         rvUsers.initializeVertical(userAdapter)
         userViewModel.fetchUsers(page)
         setUserAdapter()
@@ -115,8 +117,13 @@ class UserActivity : BaseActivity() {
                 }
             }
 
-
         })
+    }
+
+    override fun onUserClick(userModel: UserModel) {
+        val bundle = Bundle()
+        bundle.putParcelable(USER_MODEL,userModel)
+        NavigationManager.openClass(this,UserDetailsActivity::class.java,bundle)
     }
 
 }

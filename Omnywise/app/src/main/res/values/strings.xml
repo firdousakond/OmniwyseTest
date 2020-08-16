@@ -1,5 +1,4 @@
 <resources>
-    <string name="omniwyse_test">Omniwyse Test</string>
     <string name="error_msg_user">Error while fetching users</string>
     <string name="users">Users</string>
     <string name="followers">Followers: &#160;</string>

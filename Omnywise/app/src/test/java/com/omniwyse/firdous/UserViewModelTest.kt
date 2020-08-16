@@ -2,7 +2,6 @@ package com.omniwyse.firdous
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.nhaarman.mockitokotlin2.eq
 import com.omniwyse.firdous.model.UserModel
 import com.omniwyse.firdous.service.UserService
 import com.omniwyse.firdous.util.LiveDataResult
@@ -13,6 +12,7 @@ import org.junit.*
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.eq
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
@@ -23,7 +23,7 @@ class UserViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    lateinit var userViewModel: UserViewModel
+    private lateinit var userViewModel: UserViewModel
 
     @Mock
     lateinit var userService: UserService

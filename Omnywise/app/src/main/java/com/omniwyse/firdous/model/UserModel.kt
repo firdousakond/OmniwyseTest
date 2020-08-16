@@ -7,8 +7,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class UserModel(
+
+    @SerializedName("login")
+    val login: String? = null,
     @SerializedName("avatar_url")
-    val avatarUrl: String? = null,
+    var avatarUrl: String? = null,
     @SerializedName("events_url")
     val eventsUrl: String? = null,
     @SerializedName("followers_url")
@@ -23,8 +26,6 @@ data class UserModel(
     val htmlUrl: String? = null,
     @SerializedName("id")
     val id: Int? = null,
-    @SerializedName("login")
-    val login: String? = null,
     @SerializedName("node_id")
     val nodeId: String? = null,
     @SerializedName("organizations_url")

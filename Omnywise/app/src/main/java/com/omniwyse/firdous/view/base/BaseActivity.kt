@@ -1,7 +1,6 @@
 package com.omniwyse.firdous.view.base
 
 import android.app.Activity
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView

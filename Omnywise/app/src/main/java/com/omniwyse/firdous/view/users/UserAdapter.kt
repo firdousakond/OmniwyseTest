@@ -1,7 +1,6 @@
 package com.omniwyse.firdous.view.users
 
 import android.content.Context
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.omniwyse.firdous.R
 import com.omniwyse.firdous.model.UserModel
 import com.omniwyse.firdous.util.*
-import com.omniwyse.firdous.view.NavigationManager
-import com.omniwyse.firdous.view.details.UserDetailsActivity
 import kotlinx.android.synthetic.main.item_user_grid.view.*
 import kotlinx.android.synthetic.main.item_user_list.view.*
 
-class UserAdapter(private val context: Context) :
+class UserAdapter(private val context: Context, private val userClickListener: UserClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -149,9 +146,7 @@ class UserAdapter(private val context: Context) :
         }
     }
     private fun gotoDetailsScreen(position: Int) {
-        val bundle = Bundle()
-        bundle.putParcelable(USER_MODEL, userList[position])
-        NavigationManager.openClass(context, UserDetailsActivity::class.java, bundle)
+        userClickListener.onUserClick(userList[position])
     }
 
     inner class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -161,9 +156,7 @@ class UserAdapter(private val context: Context) :
         notifyDataSetChanged()
     }
 
-    fun deleteAll() {
-        userList.clear()
-        notifyDataSetChanged()
-    }
-
+  interface UserClickListener{
+     fun  onUserClick(userModel: UserModel)
+ }
 }

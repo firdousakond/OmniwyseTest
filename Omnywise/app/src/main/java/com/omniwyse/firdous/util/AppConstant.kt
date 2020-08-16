@@ -1,7 +1,5 @@
 package com.omniwyse.firdous.util
 
-const val HEADER = "header"
-
 const val USER_MODEL = "userModel"
 const val PER_PAGE = 20
 const val LOADING = 0
